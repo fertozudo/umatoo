@@ -16,4 +16,4 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Umatoo!!!!!!!")
+    return HttpResponse("Umatoo mola!!!!!!!")
