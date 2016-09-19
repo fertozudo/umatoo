@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from idlelib.idle_test.test_io import S
+
 
 from django.db import models
 
