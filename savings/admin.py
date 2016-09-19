@@ -1,10 +1,14 @@
+from core.admin import admin_site
+from savings.models import Target,  BankTransaction, KimoniTransaction
 from django.contrib import admin
 
 from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from savings.models import Target, ProfileUser
+from savings.models import ProfileUser
 
 
+# USER MODEL ADMIN
 # Define an inline admin descriptor for Profile model
 # which acts a bit like a singleton
 class ProfileUserInline(admin.StackedInline):
@@ -18,10 +22,12 @@ class UserAdmin(BaseUserAdmin):
     inlines = (ProfileUserInline, )
 
 # Re-register UserAdmin
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+admin_site.register(ProfileUser)
+admin_site.unregister(User)
+admin_site.register(User, UserAdmin)
 
 
+# BASE MODEL ADMIN
 class SavingsBaseModelAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
@@ -38,7 +44,32 @@ class SavingsBaseModelAdmin(admin.ModelAdmin):
         obj.save()
 
 
+# SAVINGS MODEL ADMINS
 class TargetAdmin(SavingsBaseModelAdmin):
-    list_display = ('name', 'amount', 'days')
+    list_display = ('name', 'target_amount', 'achieved_amount')
 
-admin.site.register(Target, TargetAdmin)
+admin_site.register(Target, TargetAdmin)
+
+
+class BankTransactionAdmin(SavingsBaseModelAdmin):
+    list_display = ('date', 'category', 'description', 'amount', 'balance')
+
+    def save_model(self, request, obj, form, change):
+        from savings.services import get_bank_transaction_balance
+        obj.balance = get_bank_transaction_balance(obj.owner) + obj.amount
+        obj.save()
+
+admin_site.register(BankTransaction, BankTransactionAdmin)
+
+
+class KimoniTransactionAdmin(SavingsBaseModelAdmin):
+    list_display = ('date', 'category', 'target', 'amount', 'balance')
+
+    def save_model(self, request, obj, form, change):
+        from savings.services import get_kimoni_transaction_balance
+        obj.balance = get_kimoni_transaction_balance(obj.owner) + obj.amount
+        obj.save()
+
+
+admin_site.register(KimoniTransaction, KimoniTransactionAdmin)
+

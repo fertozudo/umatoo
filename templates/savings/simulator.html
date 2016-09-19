@@ -1,0 +1,65 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="spiderwebdiv" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
+<script type="text/javascript">
+$( document ).ready(function() {
+        $(function () {
+
+    $('#spiderwebdiv').highcharts({
+
+        chart: {
+            polar: true,
+            type: 'area'
+        },
+
+        title: {
+            text: 'User Profile',
+            x: -80
+        },
+
+        pane: {
+            size: '80%'
+        },
+
+        xAxis: {
+            categories: ['Steady', 'Risky', 'Purchasing Power'],
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        },
+
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,
+            tickInterval :1,
+            labels: {enabled: false},
+            min: 0
+        },
+
+        tooltip: {
+            shared: true,
+            pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
+        },
+
+        legend: {
+            align: 'right',
+            verticalAlign: 'top',
+            y: 70,
+            layout: 'vertical'
+        },
+
+        series: [{
+            name: 'Fernando',
+            data: [2, 3, 5],
+            pointPlacement: 'on'
+        }]
+
+    });
+});
+    });
+</script>
+{% endblock %}

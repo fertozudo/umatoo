@@ -13,11 +13,16 @@
 # limitations under the License.
 
 from django.conf.urls import include, url
-from django.contrib import admin
 
+
+from core.admin import admin_site
 from polls.views import index
+from savings.views import SimulatorView
 
 urlpatterns = [
     url(r'^$', index),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin_site.urls)),
+    url(r'^admin/simulator/$', SimulatorView.as_view()),
 ]
+
+

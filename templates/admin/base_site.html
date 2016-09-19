@@ -1,0 +1,11 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+
+<img src="/static/core/logo.png" height="42" >
+
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
