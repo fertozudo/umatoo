@@ -27,7 +27,7 @@ $( document ).ready(function() {
         },
 
         xAxis: {
-            categories: ['Steady', 'Risky', 'Purchasing Power'],
+            categories: ['Steady', 'Risky', 'Income', 'Saving capacity', 'Consumption'],
             tickmarkPlacement: 'on',
             lineWidth: 0
         },
@@ -53,8 +53,12 @@ $( document ).ready(function() {
         },
 
         series: [{
+            name: 'Julia',
+            data: [2, 5, 4, 4, 1],
+            pointPlacement: 'on'
+        },{
             name: 'Fernando',
-            data: [2, 3, 5],
+            data: [4, 1, 4, 4, 3],
             pointPlacement: 'on'
         }]
 

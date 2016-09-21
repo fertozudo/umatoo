@@ -23,11 +23,13 @@ class ProfileUser(models.Model):
     birthday = models.DateField()
     gender = models.CharField(max_length=10, choices=(('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')))
     notification_days_frequency = models.IntegerField(default=7)
+    control_mode = models.BooleanField(default=False)
     # Attributes
     risky = models.IntegerField(default=0, choices=LEVELS)
     steady = models.IntegerField(default=0, choices=LEVELS)
-    purchasing_power = models.IntegerField(default=0, choices=LEVELS)
-
+    income = models.IntegerField(default=0, choices=LEVELS)
+    consumption = models.IntegerField(default=0, choices=LEVELS)
+    saving_capacity = models.IntegerField(default=0, choices=LEVELS)
 
 
 # BASE MODEL
