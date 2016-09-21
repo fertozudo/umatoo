@@ -30,6 +30,14 @@ handlers:
 env_variables:
   SERVER_SOFTWARE: 'Google App Engine'
 
+skip_files:
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
+- ^env$
+
 # Only pure Python libraries can be vendored
 # Python libraries that use C extensions can
 # only be included if they are part of the App Engine SDK 
