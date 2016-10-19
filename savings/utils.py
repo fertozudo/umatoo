@@ -19,7 +19,7 @@ def simulation(owner, salary=1000):
     BankTransaction.objects.filter(owner=owner).delete()
 
     end_date = date.today()
-    start_date = end_date - timedelta(days=590)
+    start_date = end_date - timedelta(days=390)
     for current_date in daterange(start_date, end_date):
         # execute algorithm
         today_saving = execute_algorithm(owner, current_date)

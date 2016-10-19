@@ -115,7 +115,7 @@ elif os.getenv('SETTINGS_MODE') == 'pro':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'HOST': '173.194.80.44',
+            'HOST': '173.194.242.231',
             'NAME': 'umatoo_db',
             'USER': 'admin',
             'PASSWORD': 'youmaytoo112',
