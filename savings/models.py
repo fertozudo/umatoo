@@ -1,14 +1,9 @@
 from __future__ import unicode_literals
 
-
-
 from django.db import models
 
 from django.contrib.auth.models import User
 
-
-# USER INFORMATION
-from core.admin import admin_site
 
 
 class ProfileUser(models.Model):
@@ -51,35 +46,47 @@ class Target(SavingsBaseModel):
     achieved_date = models.DateField(null=True, blank=True)
 
 
+BANK_TRANSACTION_CATEGORIES = (
+    ('Salary', 'Salary'),
+    ('Kimoni', 'Kimoni'),
+    ('TV/Phone/Internet', 'TV/Phone/Internet'),
+    ('Water/Gas/Electricity', 'Water/Gas/Electricity'),
+    ('Restaurants', 'Restaurants'),
+    ('Gym', 'Gym'),
+    ('Other', 'Other')
+)
+
 
 class BankTransaction(SavingsBaseModel):
-    CATEGORIES = (
-        ('TV/Phone/Internet', 'TV/Phone/Internet'),
-        ('Water/Gas/Electricity', 'Water/Gas/Electricity'),
-        ('Restaurants', 'Restaurants'),
-        ('Gym', 'Gym'),
-        ('Other', 'Other')
-    )
     date = models.DateField()
-    category = models.CharField(max_length=30, choices=CATEGORIES)
+    category = models.CharField(max_length=30, choices=BANK_TRANSACTION_CATEGORIES)
     description = models.CharField(max_length=100)
-    amount = models.IntegerField(default=0)
-    balance = models.IntegerField(default=0, editable=False)
+    amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    balance = models.DecimalField(max_digits=12, decimal_places=2, default=0, editable=False)
 
+    def save(self, *args, **kwargs):
+        from savings.services import get_bank_transaction_balance
+        self.balance = get_bank_transaction_balance(self.owner) + self.amount
+        super(BankTransaction, self).save(*args, **kwargs)
+
+KIMONI_TRANSACTION_CATEGORIES= (
+    ('User request', 'User request'),
+    ('Kimoni suggestion', 'Kimoni suggestion'),
+    ('Kimoni algorithm', 'Kimoni algorithm'),
+)
 
 
 class KimoniTransaction(SavingsBaseModel):
-    CATEGORIES = (
-        ('User request', 'User request'),
-        ('Kimoni suggestion', 'Kimoni suggestion'),
-        ('Kimoni algorithm', 'Kimoni algorithm'),
-    )
-    target = models.ForeignKey(Target, editable=False)
+    target = models.ForeignKey(Target, editable=False, null=True)
     date = models.DateField()
-    category = models.CharField(max_length=30, choices=CATEGORIES)
-    amount = models.IntegerField(default=0)
-    balance = models.IntegerField(default=0, editable=False)
+    category = models.CharField(max_length=30, choices=KIMONI_TRANSACTION_CATEGORIES)
+    amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    balance = models.DecimalField(max_digits=12, decimal_places=2, default=0, editable=False)
 
+    def save(self, *args, **kwargs):
+        from savings.services import get_kimoni_transaction_balance
+        self.balance = get_kimoni_transaction_balance(self.owner) + self.amount
+        super(KimoniTransaction, self).save(*args, **kwargs)
 
 
 

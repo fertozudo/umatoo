@@ -20,6 +20,15 @@ class ProfileUserInline(admin.StackedInline):
 # Define a new User admin
 class UserAdmin(BaseUserAdmin):
     inlines = (ProfileUserInline, )
+    actions = ['action_simulation']
+
+    def action_simulation(self, request, queryset):
+        from savings.utils import simulation
+        for user in queryset:
+            simulation(user, salary=1000)
+
+    action_simulation.short_description = "Simulation"
+
 
 # Re-register UserAdmin
 admin_site.register(ProfileUser)
@@ -54,22 +63,11 @@ admin_site.register(Target, TargetAdmin)
 class BankTransactionAdmin(SavingsBaseModelAdmin):
     list_display = ('date', 'category', 'description', 'amount', 'balance')
 
-    def save_model(self, request, obj, form, change):
-        from savings.services import get_bank_transaction_balance
-        obj.balance = get_bank_transaction_balance(obj.owner) + obj.amount
-        obj.save()
-
 admin_site.register(BankTransaction, BankTransactionAdmin)
 
 
 class KimoniTransactionAdmin(SavingsBaseModelAdmin):
     list_display = ('date', 'category', 'target', 'amount', 'balance')
-
-    def save_model(self, request, obj, form, change):
-        from savings.services import get_kimoni_transaction_balance
-        obj.balance = get_kimoni_transaction_balance(obj.owner) + obj.amount
-        obj.save()
-
 
 admin_site.register(KimoniTransaction, KimoniTransactionAdmin)
 
