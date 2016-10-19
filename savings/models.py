@@ -49,6 +49,7 @@ class Target(SavingsBaseModel):
 BANK_TRANSACTION_CATEGORIES = (
     ('Salary', 'Salary'),
     ('Kimoni', 'Kimoni'),
+    ('Home Rental', 'Home Rental'),
     ('TV/Phone/Internet', 'TV/Phone/Internet'),
     ('Water/Gas/Electricity', 'Water/Gas/Electricity'),
     ('Restaurants', 'Restaurants'),

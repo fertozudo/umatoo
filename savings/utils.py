@@ -19,7 +19,8 @@ def simulation(owner, salary=1000):
     BankTransaction.objects.filter(owner=owner).delete()
 
     end_date = date.today()
-    start_date = end_date - timedelta(days=390)
+    start_date = end_date - timedelta(days=290)
+
     for current_date in daterange(start_date, end_date):
         # execute algorithm
         today_saving = execute_algorithm(owner, current_date)
@@ -49,12 +50,18 @@ def create_bank_transaction_random(owner, date, salary):
                                           category=BANK_TRANSACTION_CATEGORIES[0][0],
                                           amount=salary)
             transaction.save()
+        if date.day == 3:
+            transaction = BankTransaction(owner=owner,
+                                          date=date,
+                                          category=BANK_TRANSACTION_CATEGORIES[2][0],
+                                          amount=-salary/4)
+            transaction.save()
 
         if randint(0,3) == 0:
             transaction = BankTransaction(owner=owner,
                                           date=date,
-                                          category=BANK_TRANSACTION_CATEGORIES[randint(2, 6)][0],
-                                          amount=-randint(500, 12000)/100)
+                                          category=BANK_TRANSACTION_CATEGORIES[randint(3, 6)][0],
+                                          amount=-randint(500, 8000)/100)
             transaction.save()
 
     except Exception as e:

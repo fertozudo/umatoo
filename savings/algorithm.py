@@ -2,7 +2,7 @@ from savings.services import get_expenses_in_cycle, get_incomes_in_cycle, get_sa
     get_bank_transaction_balance
 from calendar import monthrange
 
-FLOOR_BALANCE = 300
+FLOOR_BALANCE = 500
 CYCLE = 1  # month
 NUMBER_OF_CYCLES_TO_CALCULATE_AVERAGE = 3  # months
 
